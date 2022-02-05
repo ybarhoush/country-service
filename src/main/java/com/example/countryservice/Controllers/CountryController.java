@@ -6,13 +6,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import java.util.List;
 
 import com.example.countryservice.entities.Country;
 import com.example.countryservice.repositories.CountryRepository;
 
 import java.lang.Iterable;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/countries")
@@ -30,4 +28,9 @@ public class CountryController {
     return countries;
   }
 
+  @GetMapping(path="/{name}")
+  public Iterable<Country> getCountryByName(@PathVariable String name) {
+    Iterable<Country> country = countryRepository.findByName(name);
+    return country;
+  }
 }
