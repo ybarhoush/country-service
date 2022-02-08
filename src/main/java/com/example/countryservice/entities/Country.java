@@ -28,6 +28,10 @@ public class Country {
     this.flagFileUrl = flagFileUrl;
   }
 
+  
+  /** 
+   * @return String
+   */
   @Override
   public String toString() {
     return String.format(
@@ -35,26 +39,50 @@ public class Country {
         id, name, countryCode, capital, population, flagFileUrl);
   }
 
+  
+  /** 
+   * @return Long
+   */
   public Long getId() {
     return id;
   }
 
+  
+  /** 
+   * @return String
+   */
   public String getName() {
     return name;
   }
 
+  
+  /** 
+   * @return String
+   */
   public String getCountryCode() {
     return countryCode;
   }
 
+  
+  /** 
+   * @return String
+   */
   public String getCapital(){
     return capital;
   }
 
+  
+  /** 
+   * @return Integer
+   */
   public Integer getPopulation(){
     return population;
   }
 
+  
+  /** 
+   * @return String
+   */
   public String getFlagFileUrl(){
     return flagFileUrl;
   }
