@@ -2,8 +2,10 @@ package com.example.countryservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder({ "name", "country_code" })
 public class CountriesAndCodesData {
 
     private String name;
