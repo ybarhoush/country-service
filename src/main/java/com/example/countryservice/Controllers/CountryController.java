@@ -1,4 +1,4 @@
-package com.example.countryservice.controllers;
+package com.example.countryservice.Controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import com.example.countryservice.repositories.CountryRepository;
 import java.lang.Iterable;
 
 @RestController
-@RequestMapping("/countries")
+@RequestMapping("/db/countries")
 public class CountryController {
 
   private final CountryRepository countryRepository;
