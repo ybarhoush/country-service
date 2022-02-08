@@ -1,8 +1,6 @@
-package com.example.countryservice.Controllers;
+package com.example.countryservice.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +20,21 @@ public class CountryController {
     this.countryRepository = countryRepository;
   }
 
+  
+  /** 
+   * @return Iterable<Country>
+   */
   @GetMapping()
   public Iterable<Country> getAllCountries() {
     Iterable<Country> countries = this.countryRepository.findAll();
     return countries;
   }
 
+  
+  /** 
+   * @param name
+   * @return Iterable<Country>
+   */
   @GetMapping(path="/{name}")
   public Iterable<Country> getCountryByName(@PathVariable String name) {
     Iterable<Country> country = countryRepository.findByName(name);

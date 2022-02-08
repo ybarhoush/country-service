@@ -11,12 +11,21 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class CountryServiceApplication {
 
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(CountryServiceApplication.class, args);
 	}
 	
+	 
+	 /** 
+	  * @param repository
+	  * @return CommandLineRunner
+	  */
 	 @Bean
-	 public CommandLineRunner demo(CountryRepository repository) {
+	 public CommandLineRunner demoWriteToDb(CountryRepository repository) {
 	   return (args) -> {
   
 	 	// save new country
