@@ -23,7 +23,7 @@ public class CountryServiceApplication {
 	 /** 
 	  * @param repository
 	  * @return CommandLineRunner
-	  */
+	  
 	 @Bean
 	 public CommandLineRunner demoWriteToDb(CountryRepository repository) {
 	   return (args) -> {
@@ -33,4 +33,5 @@ public class CountryServiceApplication {
 		repository.save(new Country("Palestine", "PS", "Jerusalem", 700000, "flag"));
 		};
 	 }
+	 */
 }

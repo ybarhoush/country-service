@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//https://www.baeldung.com/jackson-annotations#1-jsonproperty
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Country {
 
@@ -35,18 +38,9 @@ public class Country {
   @Override
   public String toString() {
     return String.format(
-        "Country[id=%d, name='%s', countryCode='%s', capital='%s, population='%s, flagFileUrl='%s']",
+        "Country[name='%s', countryCode='%s', capital='%s, population='%s, flagFileUrl='%s']",
         id, name, countryCode, capital, population, flagFileUrl);
   }
-
-  
-  /** 
-   * @return Long
-   */
-  public Long getId() {
-    return id;
-  }
-
   
   /** 
    * @return String
@@ -59,6 +53,7 @@ public class Country {
   /** 
    * @return String
    */
+  @JsonProperty("country_code")
   public String getCountryCode() {
     return countryCode;
   }
@@ -67,6 +62,7 @@ public class Country {
   /** 
    * @return String
    */
+  @JsonProperty("capital")
   public String getCapital(){
     return capital;
   }
@@ -75,6 +71,7 @@ public class Country {
   /** 
    * @return Integer
    */
+  @JsonProperty("population")
   public Integer getPopulation(){
     return population;
   }
@@ -83,6 +80,7 @@ public class Country {
   /** 
    * @return String
    */
+  @JsonProperty("flag_file_url")
   public String getFlagFileUrl(){
     return flagFileUrl;
   }
