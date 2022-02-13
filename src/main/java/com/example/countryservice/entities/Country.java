@@ -1,27 +1,22 @@
 package com.example.countryservice.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 //https://www.baeldung.com/jackson-annotations#1-jsonproperty
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-@Entity
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+@JsonPropertyOrder({
+  "name",
+  "country_code",
+  "capital",
+  "population",
+  "flag_file_url"
+})
 public class Country {
 
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
-  private Long id;
   private String name;
   private String countryCode;
   private String capital;
   private Integer population;
   private String flagFileUrl;
-
-
-  protected Country() {}
 
   public Country(String name, String countryCode, String capital, Integer population, String flagFileUrl) {
     this.name = name;
@@ -31,55 +26,36 @@ public class Country {
     this.flagFileUrl = flagFileUrl;
   }
 
-  
-  /** 
-   * @return String
-   */
-  @Override
+  protected Country() {
+
+  }
+
   public String toString() {
     return String.format(
         "Country[name='%s', countryCode='%s', capital='%s, population='%s, flagFileUrl='%s']",
-        id, name, countryCode, capital, population, flagFileUrl);
+        name, countryCode, capital, population, flagFileUrl);
   }
   
-  /** 
-   * @return String
-   */
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
 
-  
-  /** 
-   * @return String
-   */
   @JsonProperty("country_code")
   public String getCountryCode() {
     return countryCode;
   }
-
   
-  /** 
-   * @return String
-   */
   @JsonProperty("capital")
   public String getCapital(){
     return capital;
   }
-
   
-  /** 
-   * @return Integer
-   */
   @JsonProperty("population")
   public Integer getPopulation(){
     return population;
   }
 
-  
-  /** 
-   * @return String
-   */
   @JsonProperty("flag_file_url")
   public String getFlagFileUrl(){
     return flagFileUrl;

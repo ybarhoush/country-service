@@ -1,12 +1,15 @@
 package com.example.countryservice.services;
 
-import com.example.countryservice.entities.Capital;
-import com.example.countryservice.entities.CountriesAndCodes;
-import com.example.countryservice.entities.CountriesAndCodesData;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.example.countryservice.entities.Countries;
 import com.example.countryservice.entities.Country;
-import com.example.countryservice.entities.CountryCode;
-import com.example.countryservice.entities.FlagFileUrl;
-import com.example.countryservice.entities.Population;
+import com.example.countryservice.entities.GetResponseData;
+import com.example.countryservice.entities.GetResponse;
+import com.example.countryservice.entities.PopulationCount;
+import com.example.countryservice.entities.PostResponse;
+
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class CountryWebService implements CountryWebServiceInterface 
+public class CountryWebService implements CountryWebServiceInterface
 {
 
 	private final RestTemplate restTemplate;
@@ -24,121 +27,60 @@ public class CountryWebService implements CountryWebServiceInterface
 		this.restTemplate = restTemplateBuilder.build();
 	}
 
-    
-    /** 
-     * @return Iterable<CountriesAndCodesData>
-     */
-    public Iterable<CountriesAndCodesData> findAll() {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+    public List<Countries> findAll() {
 	
 		String uri = "https://countriesnow.space/api/v0.1/countries/iso";
+		
+        List<GetResponseData> countries = consumeGet(uri).getData();
 
-		CountriesAndCodes data = restTemplate.getForObject(uri, CountriesAndCodes.class);
+        List<Countries> countriesList = countries
+            .stream()
+            .map(Datum -> new Countries(Datum.getName(), Datum.getIso2()))
+            .collect(Collectors.toList());
 
-		System.out.println(data.getData());
-		return data.getData();
+		return countriesList;
     }
 
-    
-    /** 
-     * @param name
-     * @return Country
-     */
     public Country findByName(String name) {
+
+        String capitalUri = "https://countriesnow.space/api/v0.1/countries/capital";
+        String populationUri = "https://countriesnow.space/api/v0.1/countries/population";
+        String flahUri = "https://countriesnow.space/api/v0.1/countries/flag/images";
+        String nameAndCountryUri = "https://countriesnow.space/api/v0.1/countries/iso";
+
         String requestJson1 = "{\"country\":\"" + name + "\"}";
-        String countryCode = consumeCountryCode(requestJson1);
+
+        String countryName = consumePost(requestJson1, nameAndCountryUri).getData().getCountry();
+        String countryCode = consumePost(requestJson1, nameAndCountryUri).getData().getIso2();
+        String capital = consumePost(requestJson1, capitalUri).getData().getCapital();
+
+        List<PopulationCount> populationCounts = consumePost(requestJson1, populationUri).getData().getPopulationCounts();
+        Integer population = populationCounts.get(58).getValue();
+
         String requestJson2 = "{\"iso2\":\"" + countryCode + "\"}";
-        Country newCountry = new Country(name, consumeCountryCode(requestJson1), consumeCapital(requestJson1), consumePopulation(requestJson1), consumeFlagFileUrl(requestJson2));
+
+        String flagFileUrl = consumePost(requestJson2, flahUri).getData().getFlag();
+
+        Country newCountry = new Country(countryName, countryCode, capital, population, flagFileUrl);
         System.out.println(newCountry.toString());
         return newCountry;
     }
 
-	
-    /** 
-     * @param requestJson
-     * @return Integer
-     */
-    public Integer consumePopulation(String requestJson) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-    
-        String uri = "https://countriesnow.space/api/v0.1/countries/population";
-        //String requestJson = "{\"country\":\"Nigeria\"}";
-    
-        HttpEntity<String> httpEntity = new HttpEntity<String>(requestJson, headers);
-    
-        Population data = restTemplate.postForObject(uri, httpEntity, Population.class);
-
-        System.out.println(data.getData().getPopulationCounts().get(58).getValue());
-        return Integer.valueOf(data.getData().getPopulationCounts().get(58).getValue());
-	}
-    
-    
-    /** 
-     * @param requestJson
-     * @return String
-     */
-    public String consumeCountryCode(String requestJson) {
+    public PostResponse consumePost(String requestJson, String uri) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-    
-        String uri = "https://countriesnow.space/api/v0.1/countries/iso";
-        //String requestJson = "{\"country\":\"Nigeria\"}";
-    
         HttpEntity<String> httpEntity = new HttpEntity<String>(requestJson, headers);
-    
-        CountryCode data = restTemplate.postForObject(uri, httpEntity, CountryCode.class);
-
-        System.out.println(data.getCountryCode());
-        System.out.println(data.toString());
-        return data.getCountryCode();
+        PostResponse data = restTemplate.postForObject(uri, httpEntity, PostResponse.class);
+        return data;
     }
 
-    
-    /** 
-     * @param requestJson
-     * @return String
-     */
-    public String consumeCapital(String requestJson) {
+    public GetResponse consumeGet(String uri) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-    
-        String uri = "https://countriesnow.space/api/v0.1/countries/capital";
-        //String requestJson = "{\"country\":\"Nigeria\"}";
-    
-        HttpEntity<String> httpEntity = new HttpEntity<String>(requestJson, headers);
-    
-        Capital data = restTemplate.postForObject(uri, httpEntity, Capital.class);
-
-        System.out.println(data.getCapital());
-        System.out.println(data.toString());
-        return data.getCapital();
-    } 
-
-    
-    /** 
-     * @param requestJson
-     * @return String
-     */
-    public String consumeFlagFileUrl(String requestJson) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-    
-        String uri = "https://countriesnow.space/api/v0.1/countries/flag/images";
-        //String requestJson = "{\"iso2\":\"NG\"}";
-    
-        HttpEntity<String> httpEntity = new HttpEntity<String>(requestJson, headers);
-    
-        FlagFileUrl data = restTemplate.postForObject(uri, httpEntity, FlagFileUrl.class);
-
-        System.out.println(data.getFlagFileUrl());
-        System.out.println(data.toString());
-        return data.getFlagFileUrl();
+        GetResponse data = restTemplate.getForObject(uri, GetResponse.class);
+        return data;
     }
-    
+  
 }

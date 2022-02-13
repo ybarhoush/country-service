@@ -1,11 +1,13 @@
 package com.example.countryservice.services;
 
-import com.example.countryservice.entities.CountriesAndCodesData;
+import java.util.List;
+
+import com.example.countryservice.entities.Countries;
 import com.example.countryservice.entities.Country;
 
 public interface CountryWebServiceInterface
 {
-	Iterable<CountriesAndCodesData> findAll();
+	List<Countries> findAll();
 
 	Country findByName(String name);
 
