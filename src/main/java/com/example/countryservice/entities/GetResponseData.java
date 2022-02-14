@@ -17,9 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 // GetResponse data Pojo; Get countries list and its code data
 public class GetResponseData {
 
-    //@JsonProperty("name")
     private String name;
-    //@JsonProperty("Iso2")
     private String iso2;
 
     @JsonProperty("name")

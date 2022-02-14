@@ -4,9 +4,8 @@
 
 Reactive REST web service; fetches the relevant information for countries from the following service: https://countriesnow.space/
 
-Uses:
-* JDK v11.0.13
-* Spring Boot v2.6.3
+
+RestTemplate implementation
 
 ```
 GET /countries/
@@ -31,6 +30,33 @@ response:
           }
  ```
  
+WebClient Webflux implementation
+
+```
+GET /countries/reactive
+response:
+          {
+            countries:
+                   [
+                             {
+                                       "name": "Finland",
+                                       "country_code": "FI"
+                             },
+                             ...
+                   ]
+          }
+GET /countries/reactive/{name}
+response:
+          {
+                   "name": "Finland",
+                   "country_code": "FI",
+                   "capital": "Helsinki",
+                   "population": 5491817,
+                   "flag_file_url": "<url to the flag file>"
+          }
+ ```
+ 
+
 ## Application running
 
 It is possible to run the application in different ways:

@@ -3,6 +3,7 @@ package com.example.countryservice.entities;
 import java.util.List;
 import javax.annotation.Generated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,14 +20,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 //Generalized Pojo for Get Request to countries.now api
 public class GetResponse {
 
-    //@JsonProperty("error")
     private boolean error;
-    //@JsonProperty("msg")
     private String msg;
-    //@JsonProperty("data")
     private List<GetResponseData> data = null;
 
-    @JsonProperty("error")
+    @JsonIgnore
     public boolean isError() {
         return error;
     }
@@ -36,7 +34,7 @@ public class GetResponse {
         this.error = error;
     }
 
-    @JsonProperty("msg")
+    @JsonIgnore
     public String getMsg() {
         return msg;
     }

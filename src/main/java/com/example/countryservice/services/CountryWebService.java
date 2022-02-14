@@ -82,5 +82,9 @@ public class CountryWebService implements CountryWebServiceInterface
         GetResponse data = restTemplate.getForObject(uri, GetResponse.class);
         return data;
     }
+
+    public Exception generateCountryNotFoundException() {
+        return null;
+    }
   
 }

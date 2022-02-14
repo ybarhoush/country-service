@@ -2,6 +2,7 @@ package com.example.countryservice.entities;
 
 import javax.annotation.Generated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,36 +23,64 @@ public class PostResponse {
     private String msg;
     private PostResponseData data;
 
-    @JsonProperty("error")
+    
+    /** 
+     * @return boolean
+     */
+    @JsonIgnore
     public boolean isError() {
         return error;
     }
 
+    
+    /** 
+     * @param error
+     */
     @JsonProperty("error")
     public void setError(boolean error) {
         this.error = error;
     }
 
-    @JsonProperty("msg")
+    
+    /** 
+     * @return String
+     */
+    @JsonIgnore
     public String getMsg() {
         return msg;
     }
 
+    
+    /** 
+     * @param msg
+     */
     @JsonProperty("msg")
     public void setMsg(String msg) {
         this.msg = msg;
     }
 
+    
+    /** 
+     * @return PostResponseData
+     */
     @JsonProperty("data")
     public PostResponseData getData() {
         return data;
     }
 
+    
+    /** 
+     * @param data
+     */
     @JsonProperty("data")
     public void setData(PostResponseData data) {
         this.data = data;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -1,6 +1,5 @@
 package com.example.countryservice.entities;
 
-//https://www.baeldung.com/jackson-annotations#1-jsonproperty
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
