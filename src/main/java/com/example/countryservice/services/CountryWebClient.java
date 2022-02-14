@@ -59,12 +59,12 @@ public class CountryWebClient {
             .retrieve()
             .bodyToMono(PostResponse.class);
         
-        Mono<Tuple4<PostResponse, PostResponse, PostResponse, PostResponse>> merged = Mono.zip(countryCapitalMono, countryIsoMono, countryPopulationMono, countryFlagMono);
+        Mono<Tuple4<PostResponse, PostResponse, PostResponse, PostResponse>> merged = Mono.zip(countryIsoMono, countryCapitalMono, countryPopulationMono, countryFlagMono);
         return merged
             .map(Data -> new Country(
                 Data.getT1().getData().getCountry(),
-                Data.getT1().getData().getCapital(),
-                Data.getT2().getData().getIso2(),
+                Data.getT1().getData().getIso2(),
+                Data.getT2().getData().getCapital(),
                 Data.getT3().getData().getPopulationCounts().get(58).getValue(),
                 Data.getT4().getData().getFlag()
             ));  
